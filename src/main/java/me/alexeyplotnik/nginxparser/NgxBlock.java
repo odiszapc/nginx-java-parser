@@ -18,6 +18,12 @@ package me.alexeyplotnik.nginxparser;
 
 import java.util.*;
 
+/**
+ * Describes block section. Example:
+ * http {
+ *     ...
+ * }
+ */
 public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
     private Collection<NgxEntry> entries = new ArrayList<NgxEntry>();
 

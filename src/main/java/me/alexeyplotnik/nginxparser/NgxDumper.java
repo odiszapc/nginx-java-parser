@@ -21,6 +21,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * NgxDumper is used to serialize an existing or manually created NgxConfig object
+ */
 public class NgxDumper {
 
     private NgxConfig config;
@@ -35,12 +38,20 @@ public class NgxDumper {
         this.config = config;
     }
 
+    /**
+     * Converts config int String
+     * @return
+     */
     public String dump() {
         StringWriter writer = new StringWriter();
         dump(config, new PrintWriter(writer), 0);
         return writer.toString();
     }
 
+    /**
+     * Serializes config and sends result to the provided OutputStream
+     * @param out
+     */
     public void dump(OutputStream out) {
         dump(config, new PrintWriter(out), 0);
     }

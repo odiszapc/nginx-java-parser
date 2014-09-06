@@ -16,6 +16,10 @@
 
 package me.alexeyplotnik.nginxparser;
 
+/**
+ * Comment. Example:
+ * # Bla bla
+ */
 public class NgxComment extends NgxAbstractEntry {
 
     public NgxComment(String comment) {

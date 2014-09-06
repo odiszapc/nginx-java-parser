@@ -16,10 +16,11 @@
 
 package me.alexeyplotnik.nginxparser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+/**
+ * Describes single line parameter. Examples:
+ * user  nginx;
+ * worker_processes  2;
+ */
 public class NgxParam extends NgxAbstractEntry {
 
     public String toString() {

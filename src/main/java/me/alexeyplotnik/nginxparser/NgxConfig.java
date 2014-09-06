@@ -26,6 +26,9 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * Main class that describes Nginx config
+ */
 public class NgxConfig extends NgxBlock {
 
     public static final Class<? extends NgxEntry> PARAM = NgxParam.class;
@@ -33,12 +36,27 @@ public class NgxConfig extends NgxBlock {
     public static final Class<? extends NgxEntry> BLOCK = NgxBlock.class;
     public static final Class<? extends NgxEntry> IF = NgxIfBlock.class;
 
+    /**
+     * Parse an existing config
+     *
+     * @param path Path to config file
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public static NgxConfig read(String path) throws IOException, ParseException {
         FileInputStream input = new FileInputStream(path);
         NginxConfigParser parser = new NginxConfigParser(input);
         return parser.parse();
     }
 
+    /**
+     * Read config from existing stream
+     * @param input
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public static NgxConfig read(InputStream input) throws IOException, ParseException {
         NginxConfigParser parser = new NginxConfigParser(input);
         return parser.parse();
