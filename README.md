@@ -7,14 +7,16 @@
 
 #### Examples
 ##### Parser
+
+How to perform basic parsing of the following Nginx config:
 ```java
-    NgxConfig conf = TestUtils.parse("/etc/nginx/nginx.conf");
-    NgxParam workers = conf.findParam("worker_processes"); // Ex.1
-    NgxParam param = conf.findParam("http", "server", "listen"); // Ex.2
-        List<NgxEntry> rtmpServers = conf.findAll(NgxConfig.BLOCK, "rtmp", "server"); // Ex.3
+NgxConfig conf = TestUtils.parse("/etc/nginx/nginx.conf");
+NgxParam workers = conf.findParam("worker_processes");       // Ex.1
+NgxParam param = conf.findParam("http", "server", "listen"); // Ex.2
+List<NgxEntry> rtmpServers = conf.findAll(NgxConfig.BLOCK, "rtmp", "server"); // Ex.3
 ```
 
-
+/etc/nginx/nginx.conf:
 ```
 worker_processes  1;            # <- Ex.1
 
@@ -26,14 +28,14 @@ http {
 }
 
 rtmp {
-    server {                    # <- Ex.3
+    server {                    # <- Ex.3 (first)
         listen 1935;
         application myapp {
             live on;
         }
     }
 
-    server {                    # <- Ex.3
+    server {                    # <- Ex.3 (second)
         listen 1936;
         application myapp2 {
             live off;
