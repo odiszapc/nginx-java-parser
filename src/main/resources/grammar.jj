@@ -1,0 +1,331 @@
+options
+{
+  FORCE_LA_CHECK = true;
+  STATIC = false;
+}
+
+PARSER_BEGIN(NginxConfigParser)
+
+package me.alexeyplotnik.nginxparser.parser;
+
+import me.alexeyplotnik.nginxparser.*;
+
+public class NginxConfigParser
+{
+  private boolean isDebug = false;
+
+  public void setDebug(boolean val) {
+    isDebug = val;
+  }
+
+  private void debug(String message) {
+    debug(message, false);
+  }
+
+  private void debugLn(String message) {
+    debug(message, true);
+  }
+
+  private void debug(String message, boolean appendLineEnding) {
+    if (isDebug) {
+      System.out.print(message);
+      if (appendLineEnding) System.out.println();
+    }
+  }
+}
+
+PARSER_END(NginxConfigParser)
+
+SKIP :
+{
+   " "
+| "\t"
+| "\r"
+| "\n"
+}
+
+
+/* SEPARATORS */
+
+TOKEN:
+{
+  < LPAREN: "(" >
+  | < RPAREN: ")" >
+  | < LBRACE: "{" >
+  | < RBRACE: "}" >
+  | < SEMICOLON: ";">
+}
+
+
+TOKEN:
+{
+  < IF: "if">
+  | < IF_BODY: <LPAREN>(~[")"])+<RPAREN>>
+  | < NUMBER: ["1"-"9"] (["0"-"9"])* >
+  | < STRING: (["0"-"9", "a"-"z", "A"-"Z",
+      "_", "/", ".", "-", ":", "=", "~",
+      "(", ")", "+", "?", "$", "&", "^", "*"])+>
+  |
+  < QUOTED_STRING:
+    "\""
+    (
+      (~["\"","\\"])
+      |
+      ("\\"
+        ( ["n","t","b","r","f","\\","'","\""]
+        | ["0"-"7"] ( ["0"-"7"] )?
+        | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+        )
+      )
+    )*
+    "\""
+    >
+  | < SINGLE_QUOTED_STRING: "'" (~["'"])* "'" >
+}
+
+TOKEN:
+{
+  <SINGLE_LINE_COMMENT: <COMMENT_SIGN> <COMMENT_BODY> >
+  | <#COMMENT_SIGN: "#">
+  | <#COMMENT_BODY: (~["\n", "\r"])*>
+}
+
+
+/*
+  Main method
+*/
+NgxConfig parse():
+{
+  NgxConfig config;
+}
+{
+  config=statements()
+  {
+    return config;
+  }
+}
+
+
+NgxConfig statements():
+{
+  NgxConfig config = new NgxConfig();
+  NgxEntry curEntry;
+}
+{
+  (
+    (
+      LOOKAHEAD (4)
+      curEntry=param()
+      | curEntry=block()
+      | curEntry=comment()
+    )
+    {
+      config.addEntry(curEntry);
+    }
+  )*
+  {
+    return config;
+  }
+}
+
+
+/*
+  Block
+
+  Example:
+  http {
+    ...
+  }
+*/
+NgxBlock block():
+{
+  String blockName = "";
+  NgxBlock block = new NgxBlock();
+  NgxToken curToken;
+  NgxEntry curEntry;
+}
+{
+  curToken=id()
+  {
+    blockName += token.image+" ";
+    block.getTokens().add(curToken);
+  }
+
+  (
+    curToken=id()
+    {
+      blockName += token.image+" ";
+      block.getTokens().add(curToken);
+    }
+  )*
+  {
+    debugLn("BLOCK=" + blockName + "{");
+  }
+  <LBRACE>
+  (
+    (
+      LOOKAHEAD (4)
+      curEntry=param()
+      | curEntry=block()
+      | curEntry=comment()
+      | curEntry=if_block()
+    )
+    {
+      block.addEntry(curEntry);
+    }
+  )*
+  <RBRACE>
+  {
+    debugLn("}");
+    return block;
+  }
+}
+
+/*
+  "if" statement
+
+  Example:
+  if ($arg_val !~ '^\d+$') {
+     return 400;
+     break;
+  }
+*/
+NgxBlock if_block():
+{
+  NgxIfBlock block = new NgxIfBlock();
+  NgxEntry curEntry = null;
+}
+{
+  <IF>
+  {
+    debug(token.image + " ");
+    block.addValue(new NgxToken(token.image));
+  }
+
+  <IF_BODY>
+  {
+    debug(token.image + " ");
+    block.addValue(new NgxToken(token.image));
+  }
+
+  <LBRACE>
+  {
+    debugLn(token.image);
+  }
+
+  (
+    (
+      LOOKAHEAD (4)
+      curEntry=param()
+      | curEntry=block()
+      | curEntry=comment()
+    )
+    {
+      block.addEntry(curEntry);
+    }
+  )*
+  <RBRACE>
+  {
+    debugLn(token.image);
+    return block;
+  }
+}
+
+/*
+  Single line parameter
+
+  Examples:
+  listen 80;
+  server_name localhost;
+  root /var/www;
+  index index.html index.htm;
+  array_map '[$array_it]' $list;
+  echo_exec /safe-memc?cmd=incr&key=$arg_key&val=$arg_val;
+*/
+NgxParam param():
+{
+  NgxParam param = new NgxParam();
+  NgxToken curToken = null;
+}
+{
+  curToken=id()
+  {
+    debug("KEY=" + token.image +", VALUE=");
+    param.getTokens().add(curToken);
+  }
+
+  (
+    curToken=value()
+    {
+      debug(token.image + " | ");
+      param.getTokens().add(curToken);
+    }
+  )*
+
+  {
+    debugLn("");
+  }
+  <SEMICOLON>
+  {
+    return param;
+  }
+}
+
+/*
+  Comment
+  Example:
+  # Comment here
+*/
+NgxComment comment():
+{
+  NgxComment comment;
+}
+{
+  <SINGLE_LINE_COMMENT>
+  {
+    debugLn("COMMENT=" + token.image);
+    return new NgxComment(token.image);
+  }
+}
+
+/*
+  Parameter/block names and/or values
+  Example:
+  # id occurs 6 times
+  gzip_types text/plain application/xml application/x-javascript text/css application/json;
+
+*/
+NgxToken id():
+{
+  NgxToken val = null;
+}
+{
+  (
+    <STRING>
+    | <QUOTED_STRING>
+    | <SINGLE_QUOTED_STRING>
+  )
+  {
+    return new NgxToken(token.image);;
+  }
+}
+
+/*
+  Parameter values
+*/
+NgxToken value():
+{
+  NgxToken val = null;
+}
+{
+  (
+    <NUMBER>
+    | <STRING>
+    | <QUOTED_STRING>
+    | <SINGLE_QUOTED_STRING>
+  )
+  {
+    return new NgxToken(token.image);;
+  }
+}
+
