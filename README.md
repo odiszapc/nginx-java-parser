@@ -12,8 +12,14 @@ How to perform basic parsing of the following Nginx config:
 ```java
 NgxConfig conf = TestUtils.parse("/etc/nginx/nginx.conf");
 NgxParam workers = conf.findParam("worker_processes");       // Ex.1
-NgxParam param = conf.findParam("http", "server", "listen"); // Ex.2
+workers.getValue(); // "1"
+NgxParam listen = conf.findParam("http", "server", "listen"); // Ex.2
+listen.getValue(); // "8889"
 List<NgxEntry> rtmpServers = conf.findAll(NgxConfig.BLOCK, "rtmp", "server"); // Ex.3
+for (NgxEntry entry : rtmpServers) {
+    ((NgxBlock)entry).getName(); // "server"
+    ((NgxBlock)entry).findParam("application", "live"); // "on" for the first iter, "off" for the second one
+}
 ```
 
 /etc/nginx/nginx.conf:
