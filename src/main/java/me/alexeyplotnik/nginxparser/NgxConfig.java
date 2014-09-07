@@ -18,7 +18,6 @@ package me.alexeyplotnik.nginxparser;
 
 import me.alexeyplotnik.nginxparser.parser.NginxConfigParser;
 import me.alexeyplotnik.nginxparser.parser.ParseException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -63,12 +62,12 @@ public class NgxConfig extends NgxBlock {
 
     @Override
     public Collection<NgxToken> getTokens() {
-        throw new NotImplementedException();
+        throw new IllegalStateException("Not implemented");
     }
 
     @Override
     public void addValue(NgxToken token) {
-        throw new NotImplementedException();
+        throw new IllegalStateException("Not implemented");
     }
 
     public String toString() {
