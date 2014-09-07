@@ -25,8 +25,6 @@ public class CommonTest {
 
     @Test
     public void testC1() throws Exception {
-        NgxConfig conf = TestUtils.parse("common/c1.conf");
-
         Iterator<NgxEntry> it = TestUtils.parse("common/c1.conf").getEntries().iterator();
 
         TestUtils.assertParam(it.next(), "user", "nginx");
@@ -46,6 +44,17 @@ public class CommonTest {
         Iterator<NgxEntry> eventsIt = events.getEntries().iterator();
         TestUtils.assertParam(eventsIt.next(), "worker_connections", "2048");
         TestUtils.assertParam(eventsIt.next(), "use", "epoll");
+        Assert.assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void testC3() throws Exception {
+        Iterator<NgxEntry> it = TestUtils.parse("common/c3.conf").getEntries().iterator();
+
+        TestUtils.assertParam(it.next(), "user", "nginx");
+        TestUtils.assertComment(it.next(), "worker_processes  2;");
+        TestUtils.assertParam(it.next(), "worker_priority", "-10");
+
         Assert.assertFalse(it.hasNext());
     }
 }

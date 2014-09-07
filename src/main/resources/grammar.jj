@@ -7,9 +7,8 @@ options
 PARSER_BEGIN(NginxConfigParser)
 
 package me.alexeyplotnik.nginxparser.parser;
-
 import me.alexeyplotnik.nginxparser.*;
-
+@SuppressWarnings("ConstantConditions")
 public class NginxConfigParser
 {
   private boolean isDebug = false;

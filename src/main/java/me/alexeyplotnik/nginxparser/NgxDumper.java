@@ -17,7 +17,6 @@
 package me.alexeyplotnik.nginxparser;
 
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -40,23 +39,23 @@ public class NgxDumper {
 
     /**
      * Converts config int String
-     * @return
+     * @return Serialized config
      */
     public String dump() {
         StringWriter writer = new StringWriter();
-        dump(config, new PrintWriter(writer), 0);
+        writeToStream(config, new PrintWriter(writer), 0);
         return writer.toString();
     }
 
     /**
      * Serializes config and sends result to the provided OutputStream
-     * @param out
+     * @param out stream to write to
      */
     public void dump(OutputStream out) {
-        dump(config, new PrintWriter(out), 0);
+        writeToStream(config, new PrintWriter(out), 0);
     }
 
-    private void dump(NgxBlock config, PrintWriter writer, int level) {
+    private void writeToStream(NgxBlock config, PrintWriter writer, int level) {
         for (NgxEntry entry : config) {
             NgxEntryType type = NgxEntryType.fromClass(entry.getClass());
             switch (type) {
@@ -65,7 +64,7 @@ public class NgxDumper {
                     writer.append(getOffset(level))
                             .append(block.toString())
                             .append(getLineEnding());
-                    dump(block, writer, level + 1);
+                    writeToStream(block, writer, level + 1);
                     writer
                             .append(getOffset(level))
                             .append(RBRACE)
@@ -77,7 +76,7 @@ public class NgxDumper {
                             .append(getOffset(level))
                             .append(ifBlock.toString())
                             .append(getLineEnding());
-                    dump(ifBlock, writer, level + 1);
+                    writeToStream(ifBlock, writer, level + 1);
                     writer
                             .append(getOffset(level))
                             .append(LBRACE)

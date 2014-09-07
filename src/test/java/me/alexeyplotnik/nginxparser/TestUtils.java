@@ -24,11 +24,7 @@ import java.util.Iterator;
 public class TestUtils {
     public static NgxConfig parse(String path) throws Exception {
         InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        try {
-            return NgxConfig.read(input);
-        } catch (Exception e) {
-            throw e;
-        }
+        return NgxConfig.read(input);
     }
 
     public static String dump(String path) throws Exception {
@@ -59,5 +55,12 @@ public class TestUtils {
         }
 
         return (NgxBlock) entry;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static NgxComment assertComment(NgxEntry entry, @SuppressWarnings("SameParameterValue") String value) {
+        Assert.assertTrue(entry instanceof NgxComment);
+        Assert.assertEquals(((NgxComment) entry).getValue(), value);
+        return (NgxComment) entry;
     }
 }

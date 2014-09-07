@@ -27,6 +27,6 @@ hs_err_pid*
 # Maven
 log/
 target/.idea/*
-target/*
+target/
 
 settings.xml

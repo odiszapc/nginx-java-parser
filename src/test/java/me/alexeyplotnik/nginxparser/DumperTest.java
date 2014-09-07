@@ -43,4 +43,13 @@ public class DumperTest {
                 "}\n";
         Assert.assertEquals(TestUtils.dump("common/c2.conf"), expected);
     }
+
+    @Test
+    public void testC3() throws Exception {
+        final String expected = "" +
+                "user nginx;\n" +
+                "#worker_processes  2;\n" +
+                "worker_priority -10;\n";
+        Assert.assertEquals(TestUtils.dump("common/c3.conf"), expected);
+    }
 }

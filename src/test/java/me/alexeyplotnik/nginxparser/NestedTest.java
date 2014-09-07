@@ -22,27 +22,30 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.List;
 
+import static me.alexeyplotnik.nginxparser.TestUtils.assertBlock;
+import static me.alexeyplotnik.nginxparser.TestUtils.assertParam;
+
 public class NestedTest {
 
     @Test
     public void testС1() throws Exception {
         Iterator<NgxEntry> it = TestUtils.parse("nested/c1.conf").getEntries().iterator();
-        NgxBlock rtmp = TestUtils.assertBlock(it.next(), "rtmp");
+        NgxBlock rtmp = assertBlock(it.next(), "rtmp");
 
         it = rtmp.iterator();
-        NgxBlock server = TestUtils.assertBlock(it.next(), "server");
+        NgxBlock server = assertBlock(it.next(), "server");
         Iterator<NgxEntry> serverIt = server.iterator();
-        TestUtils.assertParam(serverIt.next(), "listen", "1935");
-        NgxBlock application = TestUtils.assertBlock(serverIt.next(), "application", "myapp");
+        assertParam(serverIt.next(), "listen", "1935");
+        NgxBlock application = assertBlock(serverIt.next(), "application", "myapp");
         Iterator<NgxEntry> appIt = application.iterator();
-        TestUtils.assertParam(appIt.next(), "live", "on");
+        assertParam(appIt.next(), "live", "on");
 
-        server = TestUtils.assertBlock(it.next(), "server");
+        server = assertBlock(it.next(), "server");
         serverIt = server.iterator();
-        TestUtils.assertParam(serverIt.next(), "listen", "1936");
-        application = TestUtils.assertBlock(serverIt.next(), "application", "myapp2");
+        assertParam(serverIt.next(), "listen", "1936");
+        application = assertBlock(serverIt.next(), "application", "myapp2");
         appIt = application.iterator();
-        TestUtils.assertParam(appIt.next(), "live", "off");
+        assertParam(appIt.next(), "live", "off");
 
         Assert.assertFalse(it.hasNext());
     }
@@ -52,8 +55,8 @@ public class NestedTest {
         NgxConfig conf = TestUtils.parse("nested/c1.conf");
         List<NgxEntry> result = conf.findAll(NgxConfig.PARAM, "rtmp", "server", "application", "live");
         Assert.assertEquals(result.size(), 2);
-        TestUtils.assertParam(result.get(0), "live", "on");
-        TestUtils.assertParam(result.get(1), "live", "off");
+        assertParam(result.get(0), "live", "on");
+        assertParam(result.get(1), "live", "off");
         Assert.assertNotEquals(result.get(0), result.get(1));
     }
 
@@ -61,20 +64,20 @@ public class NestedTest {
     public void testC1findEvery() throws Exception {
         NgxConfig conf = TestUtils.parse("nested/c1.conf");
         NgxBlock rtmp = conf.findBlock("rtmp");
-        TestUtils.assertBlock(rtmp, "rtmp");
+        assertBlock(rtmp, "rtmp");
 
         List<NgxEntry> all = conf.findAll(NgxConfig.BLOCK, "rtmp", "server");
         Iterator<NgxEntry> it = all.iterator();
         NgxBlock s1 = (NgxBlock) it.next();
-        TestUtils.assertBlock(s1, "server");
+        assertBlock(s1, "server");
         NgxParam param = s1.findParam("application", "live");
-        TestUtils.assertParam(param, "live");
+        assertParam(param, "live");
         Assert.assertEquals(param.getValue(), "on");
 
         NgxBlock s2 = (NgxBlock) it.next();
-        TestUtils.assertBlock(s2, "server");
+        assertBlock(s2, "server");
         NgxParam param2 = s2.findParam("application", "live");
-        TestUtils.assertParam(param2, "live");
+        assertParam(param2, "live");
         Assert.assertEquals(param2.getValue(), "off");
     }
 
@@ -83,8 +86,19 @@ public class NestedTest {
         NgxConfig conf = TestUtils.parse("nested/c1.conf");
         List<NgxEntry> result = conf.findAll(NgxConfig.BLOCK, "rtmp", "server", "application");
         Assert.assertEquals(result.size(), 2);
-        TestUtils.assertBlock(result.get(0), "application", "myapp");
-        TestUtils.assertBlock(result.get(1), "application", "myapp2");
+        assertBlock(result.get(0), "application", "myapp");
+        assertBlock(result.get(1), "application", "myapp2");
         Assert.assertNotEquals(result.get(0), result.get(1));
+    }
+
+    @Test
+    public void testС2() throws Exception {
+        NgxConfig conf = TestUtils.parse("nested/c2.conf");
+        NgxBlock loc = assertBlock(conf.findBlock("http", "server", "location"), "location", "/hello");
+        Iterator<NgxEntry> it = loc.iterator();
+        assertParam(it.next(), "set", "$memc_cmd", "$arg_cmd");
+        assertParam(it.next(), "set_unescape_uri", "$name", "$arg_name");
+        assertParam(it.next(), "set_if_empty", "$name", "\"Anonymous\"");
+        assertParam(it.next(), "memc_pass", "127.0.0.1:11211");
     }
 }
