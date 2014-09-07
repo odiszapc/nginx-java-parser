@@ -53,7 +53,7 @@ rtmp {
 ##### Dumper
 
 ```java
-    NgxDumper dumper = new NgxDumper(conf);
-    return dumper.dump(System.out);
+NgxDumper dumper = new NgxDumper(conf);
+return dumper.dump(System.out);
 ```
 
