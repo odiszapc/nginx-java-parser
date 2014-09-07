@@ -77,4 +77,12 @@ public class CommonTest {
         assertBlock(it.next(), "location", "~", "/\\.");
         Assert.assertFalse(it.hasNext());
     }
+
+    @Test
+    public void testC6() throws Exception {
+        Iterator<NgxEntry> it = TestUtils.parse("common/c6.conf").getEntries().iterator();
+
+        assertBlock(it.next(), "location", "~*", "\\.(?:ico|css|js|gif|jpe?g|png)$");
+        Assert.assertFalse(it.hasNext());
+    }
 }
