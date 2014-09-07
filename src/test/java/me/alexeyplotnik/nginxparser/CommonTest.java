@@ -85,4 +85,12 @@ public class CommonTest {
         assertBlock(it.next(), "location", "~*", "\\.(?:ico|css|js|gif|jpe?g|png)$");
         Assert.assertFalse(it.hasNext());
     }
+
+    @Test
+    public void testC7() throws Exception {
+        Iterator<NgxEntry> it = TestUtils.parse("common/c7.conf").getEntries().iterator();
+
+        assertParam(it.next(), "fastcgi_split_path_info", "^(.+\\.php)(/.+)$");
+        Assert.assertFalse(it.hasNext());
+    }
 }
