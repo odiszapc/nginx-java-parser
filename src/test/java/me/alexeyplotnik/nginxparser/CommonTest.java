@@ -21,29 +21,33 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
+import static me.alexeyplotnik.nginxparser.TestUtils.assertBlock;
+import static me.alexeyplotnik.nginxparser.TestUtils.assertComment;
+import static me.alexeyplotnik.nginxparser.TestUtils.assertParam;
+
 public class CommonTest {
 
     @Test
     public void testC1() throws Exception {
         Iterator<NgxEntry> it = TestUtils.parse("common/c1.conf").getEntries().iterator();
 
-        TestUtils.assertParam(it.next(), "user", "nginx");
-        TestUtils.assertParam(it.next(), "worker_processes", "2");
-        TestUtils.assertParam(it.next(), "timer_resolution", "100ms");
-        TestUtils.assertParam(it.next(), "worker_rlimit_nofile", "8192");
-        TestUtils.assertParam(it.next(), "worker_priority", "-10");
+        assertParam(it.next(), "user", "nginx");
+        assertParam(it.next(), "worker_processes", "2");
+        assertParam(it.next(), "timer_resolution", "100ms");
+        assertParam(it.next(), "worker_rlimit_nofile", "8192");
+        assertParam(it.next(), "worker_priority", "-10");
         Assert.assertFalse(it.hasNext());
     }
 
     @Test
     public void testC2() throws Exception {
         Iterator<NgxEntry> it = TestUtils.parse("common/c2.conf").getEntries().iterator();
-        TestUtils.assertParam(it.next(), "error_log", "/var/log/nginx/error.log", "warn");
-        TestUtils.assertParam(it.next(), "pid", "/var/run/nginx.pid");
-        NgxBlock events = TestUtils.assertBlock(it.next(), "events");
+        assertParam(it.next(), "error_log", "/var/log/nginx/error.log", "warn");
+        assertParam(it.next(), "pid", "/var/run/nginx.pid");
+        NgxBlock events = assertBlock(it.next(), "events");
         Iterator<NgxEntry> eventsIt = events.getEntries().iterator();
-        TestUtils.assertParam(eventsIt.next(), "worker_connections", "2048");
-        TestUtils.assertParam(eventsIt.next(), "use", "epoll");
+        assertParam(eventsIt.next(), "worker_connections", "2048");
+        assertParam(eventsIt.next(), "use", "epoll");
         Assert.assertFalse(it.hasNext());
     }
 
@@ -51,10 +55,26 @@ public class CommonTest {
     public void testC3() throws Exception {
         Iterator<NgxEntry> it = TestUtils.parse("common/c3.conf").getEntries().iterator();
 
-        TestUtils.assertParam(it.next(), "user", "nginx");
-        TestUtils.assertComment(it.next(), "worker_processes  2;");
-        TestUtils.assertParam(it.next(), "worker_priority", "-10");
+        assertParam(it.next(), "user", "nginx");
+        assertComment(it.next(), "worker_processes  2;");
+        assertParam(it.next(), "worker_priority", "-10");
+        assertParam(it.next(), "proxy_pass", "http://unix:/opt/apps/ipn/ipn.sock:/");
+        Assert.assertFalse(it.hasNext());
+    }
 
+    @Test
+    public void testC4() throws Exception {
+        Iterator<NgxEntry> it = TestUtils.parse("common/c4.conf").getEntries().iterator();
+
+        assertBlock(it.next(), "location", "@backend");
+        Assert.assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void testC5() throws Exception {
+        Iterator<NgxEntry> it = TestUtils.parse("common/c5.conf").getEntries().iterator();
+
+        assertBlock(it.next(), "location", "~", "/\\.");
         Assert.assertFalse(it.hasNext());
     }
 }

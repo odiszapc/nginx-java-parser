@@ -19,11 +19,13 @@ package me.alexeyplotnik.nginxparser;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static me.alexeyplotnik.nginxparser.TestUtils.parse;
+
 public class TricksTest {
 
     @Test
     @Ignore
     public void testC1() throws Exception {
-        TestUtils.parse("tricks/c1.conf");
+        parse("tricks/c1.conf");
     }
 }
