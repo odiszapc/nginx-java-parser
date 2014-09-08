@@ -6,8 +6,8 @@ options
 
 PARSER_BEGIN(NginxConfigParser)
 
-package me.alexeyplotnik.nginxparser.parser;
-import me.alexeyplotnik.nginxparser.*;
+package com.github.odiszapc.nginxparser.parser;
+import com.github.odiszapc.nginxparser.*;
 @SuppressWarnings("ConstantConditions")
 public class NginxConfigParser
 {
