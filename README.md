@@ -1,9 +1,23 @@
 # Nginx configuration Java parser
 
 #### Features
-- Convert config file to AST tree using JavaCC parsing capabilities
-- Build config files from scratch and serialize them
+- Convert config file to AST tree using Antlr parsing capabilities
+- The same is available for JavaCC too (deprecated)
+- Rebuild config files and dump them back to *.conf
+- Nested blocks support
+- If statements support
+- Unquoted regexp within location/rewrite/if statements support
 - Comments support
+
+#### Installation
+Add the following dependency to your POM:
+```xml
+<dependency>
+    <groupId>com.github.odiszapc</groupId>
+    <artifactId>nginxparser</artifactId>
+    <version>0.9.0</version>
+</dependency>
+```
 
 #### Examples
 ##### Parser
@@ -57,3 +71,8 @@ NgxDumper dumper = new NgxDumper(conf);
 return dumper.dump(System.out);
 ```
 
+#### Authors
+Alexey Plotnik (odiszapc@gmail.com, http://twitter.com/odiszapc) I do it just because I like it.
+
+#### License
+Apache 2.0
