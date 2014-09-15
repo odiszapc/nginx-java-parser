@@ -26,7 +26,7 @@ Add the following dependency to your POM:
 
 How to perform basic parsing of the following Nginx config:
 ```java
-NgxConfig conf = TestUtils.parse("/etc/nginx/nginx.conf");
+NgxConfig conf = NgxConfig.read("/etc/nginx/nginx.conf");
 NgxParam workers = conf.findParam("worker_processes");       // Ex.1
 workers.getValue(); // "1"
 NgxParam listen = conf.findParam("http", "server", "listen"); // Ex.2
@@ -69,6 +69,8 @@ rtmp {
 ##### Dumper
 
 ```java
+NgxConfig conf = NgxConfig.read("/etc/nginx/nginx.conf");
+// ...
 NgxDumper dumper = new NgxDumper(conf);
 return dumper.dump(System.out);
 ```
