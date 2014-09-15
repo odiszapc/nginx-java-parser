@@ -51,8 +51,7 @@ public class NgxConfig extends NgxBlock {
      */
     public static NgxConfig read(String path) throws IOException, ParseException {
         FileInputStream input = new FileInputStream(path);
-        NginxConfigParser parser = new NginxConfigParser(input);
-        return parser.parse();
+        return read(input);
     }
 
     public static NgxConfig read(InputStream in) throws IOException {
