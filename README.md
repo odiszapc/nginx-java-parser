@@ -1,5 +1,7 @@
 # Nginx configuration Java parser
 
+This library helps in analyzing Nginx web server configuration files, looking up for specified parameters, blocks, regular expressions or comments. Then AST can be modified and converted back to plain file.
+
 #### Features
 - Convert config file to AST tree using ANTLR4 parsing capabilities
 - The same is available for JavaCC too (deprecated)
