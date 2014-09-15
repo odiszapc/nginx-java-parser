@@ -108,6 +108,4 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
 
         return res;
     }
-
-
 }

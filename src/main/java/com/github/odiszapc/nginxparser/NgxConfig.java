@@ -16,8 +16,15 @@
 
 package com.github.odiszapc.nginxparser;
 
-import com.github.odiszapc.nginxparser.parser.NginxConfigParser;
-import com.github.odiszapc.nginxparser.parser.ParseException;
+import com.github.odiszapc.nginxparser.antlr.NginxLexer;
+import com.github.odiszapc.nginxparser.antlr.NginxListenerImpl;
+import com.github.odiszapc.nginxparser.antlr.NginxParser;
+import com.github.odiszapc.nginxparser.javacc.NginxConfigParser;
+import com.github.odiszapc.nginxparser.javacc.ParseException;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -48,6 +55,10 @@ public class NgxConfig extends NgxBlock {
         return parser.parse();
     }
 
+    public static NgxConfig read(InputStream in) throws IOException {
+        return readAntlr(in);
+    }
+
     /**
      * Read config from existing stream
      * @param input stream to read from
@@ -55,9 +66,24 @@ public class NgxConfig extends NgxBlock {
      * @throws IOException
      * @throws ParseException
      */
-    public static NgxConfig read(InputStream input) throws IOException, ParseException {
+    public static NgxConfig readJavaCC(InputStream input) throws IOException, ParseException {
         NginxConfigParser parser = new NginxConfigParser(input);
         return parser.parse();
+    }
+
+
+    public static NgxConfig readAntlr(InputStream in) throws IOException {
+        ANTLRInputStream input = new ANTLRInputStream(in);
+        NginxLexer lexer = new NginxLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        NginxParser parser = new NginxParser(tokens);
+        ParseTreeWalker walker = new ParseTreeWalker();
+
+        ParseTree tree = parser.config(); // begin parsing at init rule
+        NginxListenerImpl listener = new NginxListenerImpl();
+        walker.walk(listener, tree);
+
+        return listener.getResult();
     }
 
     @Override

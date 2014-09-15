@@ -21,15 +21,13 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-import static com.github.odiszapc.nginxparser.TestUtils.assertBlock;
-import static com.github.odiszapc.nginxparser.TestUtils.assertComment;
-import static com.github.odiszapc.nginxparser.TestUtils.assertParam;
+import static com.github.odiszapc.nginxparser.TestUtils.*;
 
-public class CommonTest {
+public class CommonTest extends ParseTestBase {
 
     @Test
     public void testC1() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c1.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c1.conf").getEntries().iterator();
 
         assertParam(it.next(), "user", "nginx");
         assertParam(it.next(), "worker_processes", "2");
@@ -41,7 +39,7 @@ public class CommonTest {
 
     @Test
     public void testC2() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c2.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c2.conf").getEntries().iterator();
         assertParam(it.next(), "error_log", "/var/log/nginx/error.log", "warn");
         assertParam(it.next(), "pid", "/var/run/nginx.pid");
         NgxBlock events = assertBlock(it.next(), "events");
@@ -53,7 +51,7 @@ public class CommonTest {
 
     @Test
     public void testC3() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c3.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c3.conf").getEntries().iterator();
 
         assertParam(it.next(), "user", "nginx");
         assertComment(it.next(), "worker_processes  2;");
@@ -64,7 +62,7 @@ public class CommonTest {
 
     @Test
     public void testC4() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c4.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c4.conf").getEntries().iterator();
 
         assertBlock(it.next(), "location", "@backend");
         Assert.assertFalse(it.hasNext());
@@ -72,7 +70,7 @@ public class CommonTest {
 
     @Test
     public void testC5() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c5.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c5.conf").getEntries().iterator();
 
         assertBlock(it.next(), "location", "~", "/\\.");
         Assert.assertFalse(it.hasNext());
@@ -80,7 +78,7 @@ public class CommonTest {
 
     @Test
     public void testC6() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c6.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c6.conf").getEntries().iterator();
 
         assertBlock(it.next(), "location", "~*", "\\.(?:ico|css|js|gif|jpe?g|png)$");
         Assert.assertFalse(it.hasNext());
@@ -88,7 +86,7 @@ public class CommonTest {
 
     @Test
     public void testC7() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("common/c7.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("common/c7.conf").getEntries().iterator();
 
         assertParam(it.next(), "fastcgi_split_path_info", "^(.+\\.php)(/.+)$");
         Assert.assertFalse(it.hasNext());

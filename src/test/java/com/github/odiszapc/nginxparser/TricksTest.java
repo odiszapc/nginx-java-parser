@@ -16,16 +16,26 @@
 
 package com.github.odiszapc.nginxparser;
 
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static com.github.odiszapc.nginxparser.TestUtils.parse;
+import java.util.Iterator;
 
-public class TricksTest {
+import static com.github.odiszapc.nginxparser.TestUtils.assertBlock;
+import static com.github.odiszapc.nginxparser.TestUtils.assertParam;
+
+public class TricksTest  extends ParseTestBase {
 
     @Test
-    @Ignore
     public void testC1() throws Exception {
-        parse("tricks/c1.conf");
+        Iterator<NgxEntry> it = parse("tricks/c1.conf").getEntries().iterator();
+        NgxBlock loc = (NgxBlock) it.next();
+        assertBlock(loc, "events");
+
+        Iterator<NgxEntry> it2 = loc.getEntries().iterator();
+        assertParam(it2.next(), "worker_connections", "2048");
+        assertParam(it2.next(), "use", "epoll");
+        Assert.assertFalse(it2.hasNext());
+        Assert.assertFalse(it.hasNext());
     }
 }

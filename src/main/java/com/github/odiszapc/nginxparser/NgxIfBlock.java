@@ -17,4 +17,8 @@
 package com.github.odiszapc.nginxparser;
 
 public class NgxIfBlock extends NgxBlock {
+
+    public String toString() {
+        return super.toString(); // TODO: add parentheses (looks like "if $a !~ ^1(2)3$ {" currently)
+    }
 }

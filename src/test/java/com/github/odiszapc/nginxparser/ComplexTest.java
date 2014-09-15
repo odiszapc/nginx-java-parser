@@ -1,20 +1,26 @@
 package com.github.odiszapc.nginxparser;
 
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collection;
+import java.util.Iterator;
 
-@Ignore
-public class ComplexTest {
+public class ComplexTest extends ParseTestBase {
     @Test
     public void testC1() throws Exception {
-        NgxConfig parse = TestUtils.parse("complex/c1.conf");
-        Collection<NgxToken> tokens = ((NgxBlock) parse.iterator().next()).getTokens();
+        Iterator<NgxEntry> it = parse("complex/c1.conf").getEntries().iterator();
+        NgxBlock loc = (NgxBlock) it.next();
+        TestUtils.assertBlock(loc, "location", "~", "^/cat/(.*)^/cat(_)");
+        Assert.assertTrue(loc.getEntries().isEmpty());
+        Assert.assertFalse(it.hasNext());
     }
 
     @Test
     public void testC2() throws Exception {
-        NgxConfig parse = TestUtils.parse("complex/c2.conf");
+        Iterator<NgxEntry> it = parse("complex/c2.conf").getEntries().iterator();
+        NgxBlock loc = (NgxBlock) it.next();
+        TestUtils.assertBlock(loc, "location", "~", "\\.(gif|png|jpe?g)$");
+        Assert.assertTrue(loc.getEntries().isEmpty());
+        Assert.assertFalse(it.hasNext());
     }
 }

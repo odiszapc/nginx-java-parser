@@ -25,11 +25,11 @@ import java.util.List;
 import static com.github.odiszapc.nginxparser.TestUtils.assertBlock;
 import static com.github.odiszapc.nginxparser.TestUtils.assertParam;
 
-public class NestedTest {
+public class NestedTest extends ParseTestBase {
 
     @Test
     public void testС1() throws Exception {
-        Iterator<NgxEntry> it = TestUtils.parse("nested/c1.conf").getEntries().iterator();
+        Iterator<NgxEntry> it = parse("nested/c1.conf").getEntries().iterator();
         NgxBlock rtmp = assertBlock(it.next(), "rtmp");
 
         it = rtmp.iterator();
@@ -52,7 +52,7 @@ public class NestedTest {
 
     @Test
     public void testC1find() throws Exception {
-        NgxConfig conf = TestUtils.parse("nested/c1.conf");
+        NgxConfig conf = parse("nested/c1.conf");
         List<NgxEntry> result = conf.findAll(NgxConfig.PARAM, "rtmp", "server", "application", "live");
         Assert.assertEquals(result.size(), 2);
         assertParam(result.get(0), "live", "on");
@@ -62,7 +62,7 @@ public class NestedTest {
 
     @Test
     public void testC1findEvery() throws Exception {
-        NgxConfig conf = TestUtils.parse("nested/c1.conf");
+        NgxConfig conf = parse("nested/c1.conf");
         NgxBlock rtmp = conf.findBlock("rtmp");
         assertBlock(rtmp, "rtmp");
 
@@ -83,7 +83,7 @@ public class NestedTest {
 
     @Test
     public void testC1findBlock() throws Exception {
-        NgxConfig conf = TestUtils.parse("nested/c1.conf");
+        NgxConfig conf = parse("nested/c1.conf");
         List<NgxEntry> result = conf.findAll(NgxConfig.BLOCK, "rtmp", "server", "application");
         Assert.assertEquals(result.size(), 2);
         assertBlock(result.get(0), "application", "myapp");
@@ -93,7 +93,7 @@ public class NestedTest {
 
     @Test
     public void testС2() throws Exception {
-        NgxConfig conf = TestUtils.parse("nested/c2.conf");
+        NgxConfig conf = parse("nested/c2.conf");
         NgxBlock loc = assertBlock(conf.findBlock("http", "server", "location"), "location", "/hello");
         Iterator<NgxEntry> it = loc.iterator();
         assertParam(it.next(), "set", "$memc_cmd", "$arg_cmd");

@@ -22,13 +22,21 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 public class TestUtils {
-    public static NgxConfig parse(String path) throws Exception {
-        InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        return NgxConfig.read(input);
+    public static NgxConfig parseJavaCC(String path) throws Exception {
+        InputStream input = getStream(path);
+        return NgxConfig.readJavaCC(input);
+    }
+
+    public static NgxConfig parseAntlr(String path) throws Exception {
+        return NgxConfig.read(getStream(path));
+    }
+
+    public static InputStream getStream(String path) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
     }
 
     public static String dump(String path) throws Exception {
-        NgxConfig conf = TestUtils.parse(path);
+        NgxConfig conf = TestUtils.parseJavaCC(path);
         NgxDumper dumper = new NgxDumper(conf);
         return dumper.dump();
     }

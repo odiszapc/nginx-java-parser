@@ -38,6 +38,10 @@ public abstract class NgxAbstractEntry implements NgxEntry {
         tokens.add(token);
     }
 
+    public void addValue(String value) {
+        addValue(new NgxToken(value));
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
