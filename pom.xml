@@ -22,7 +22,7 @@
 
     <groupId>com.github.odiszapc</groupId>
     <artifactId>nginxparser</artifactId>
-    <version>0.0.1</version>
+    <version>0.9.0</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
