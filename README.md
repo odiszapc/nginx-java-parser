@@ -1,7 +1,7 @@
 # Nginx configuration Java parser
 
 #### Features
-- Convert config file to AST tree using Antlr parsing capabilities
+- Convert config file to AST tree using ANTLR4 parsing capabilities
 - The same is available for JavaCC too (deprecated)
 - Rebuild config files and dump them back to *.conf
 - Nested blocks support
