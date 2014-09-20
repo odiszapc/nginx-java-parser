@@ -65,6 +65,19 @@ public class TestUtils {
         return (NgxBlock) entry;
     }
 
+    public static NgxIfBlock assertIfBlock(NgxEntry entry, String name, String... values) {
+        Assert.assertTrue(entry instanceof NgxBlock);
+        Assert.assertEquals(((NgxIfBlock) entry).getName(), name);
+
+        Assert.assertEquals(values.length, ((NgxBlock) entry).getValues().size());
+        Iterator<String> it = ((NgxBlock) entry).getValues().iterator();
+        for (String value : values) {
+            Assert.assertEquals(it.next(), value);
+        }
+
+        return (NgxIfBlock) entry;
+    }
+
     @SuppressWarnings("UnusedReturnValue")
     public static NgxComment assertComment(NgxEntry entry, @SuppressWarnings("SameParameterValue") String value) {
         Assert.assertTrue(entry instanceof NgxComment);
