@@ -78,5 +78,8 @@ return dumper.dump(System.out);
 #### Authors
 Alexey Plotnik (odiszapc@gmail.com, http://twitter.com/odiszapc) I do it just because I like it.
 
+#### Nginx RTMP reporting
+This library was developed as part of upcoming **nginx-rtmp-module** integration with WMSPanel. It's a cloud control and reporting panel for multiple media servers, see https://wmspanel.com/ for details.
+
 #### License
 Apache 2.0
