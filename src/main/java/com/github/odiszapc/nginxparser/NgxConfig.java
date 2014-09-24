@@ -47,9 +47,8 @@ public class NgxConfig extends NgxBlock {
      * @param path Path to config file
      * @return Config object
      * @throws IOException
-     * @throws ParseException
      */
-    public static NgxConfig read(String path) throws IOException, ParseException {
+    public static NgxConfig read(String path) throws IOException {
         FileInputStream input = new FileInputStream(path);
         return read(input);
     }

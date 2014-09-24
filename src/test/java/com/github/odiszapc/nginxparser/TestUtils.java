@@ -36,7 +36,7 @@ public class TestUtils {
     }
 
     public static String dump(String path) throws Exception {
-        NgxConfig conf = TestUtils.parseJavaCC(path);
+        NgxConfig conf = TestUtils.parseAntlr(path);
         NgxDumper dumper = new NgxDumper(conf);
         return dumper.dump();
     }
