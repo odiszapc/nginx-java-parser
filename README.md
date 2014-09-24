@@ -17,7 +17,7 @@ Add the following dependency to your POM:
 <dependency>
     <groupId>com.github.odiszapc</groupId>
     <artifactId>nginxparser</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.2</version>
 </dependency>
 ```
 
