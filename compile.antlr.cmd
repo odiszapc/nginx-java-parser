@@ -1,3 +1,3 @@
-REM Run from src/main/resources
+REM Run from src/main/resources/grammar
 @echo off
-antlr -listener -lib . -o ..\..\..\src\main\java\com\github\odiszapc\nginxparser\antlr -visitor Nginx.g4
+antlr -listener -lib . -o ..\..\..\..\src\main\java\com\github\odiszapc\nginxparser\antlr -visitor Nginx.g4
