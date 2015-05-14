@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * Describes block section. Example:
  * http {
- *     ...
+ * ...
  * }
  */
 public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
@@ -44,6 +44,38 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
     @Override
     public Iterator<NgxEntry> iterator() {
         return getEntries().iterator();
+    }
+
+    public void remove(NgxEntry itemToRemove) {
+        if (null == itemToRemove)
+            throw new NullPointerException("Item can not be null");
+
+        Iterator<NgxEntry> it = entries.iterator();
+        while(it.hasNext()) {
+            NgxEntry entry = it.next();
+            switch (NgxEntryType.fromClass(entry.getClass())) {
+                case PARAM:
+                    if (entry.equals(itemToRemove))
+                        it.remove();
+                    break;
+                case BLOCK:
+                    if (entry.equals(itemToRemove))
+                        it.remove();
+                    else {
+                        NgxBlock block = (NgxBlock) entry;
+                        block.remove(itemToRemove);
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void removeAll(Iterable<NgxEntry> itemsToRemove) {
+        if (null == itemsToRemove)
+            throw new NullPointerException("Items can not be null");
+        for (NgxEntry itemToRemove : itemsToRemove) {
+            remove(itemToRemove);
+        }
     }
 
     public <T extends NgxEntry> T find(Class<T> clazz, String... params) {
