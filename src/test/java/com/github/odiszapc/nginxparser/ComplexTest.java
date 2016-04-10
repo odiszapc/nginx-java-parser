@@ -1,6 +1,7 @@
 package com.github.odiszapc.nginxparser;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -56,5 +57,19 @@ public class ComplexTest extends ParseTestBase {
         // Each regexp must be prefixed by ~ or ~*
         TestUtils.assertParam(mapEntries.next(), "\"^/(?i)bar/?$\"", "http://example.com/#!/register/1?corporate=BAR");
         TestUtils.assertParam(mapEntries.next(), "~^/(?i)baz/?$", "http://example.com/baz.html");
+    }
+
+    @Test
+    @Ignore("Semicolon is broken")
+    public void semicolon() throws Exception {
+        final NgxConfig parsedConfig = parse("complex/semicolon.conf");
+        NgxDumper ngxDumper = new NgxDumper(parsedConfig);
+        ngxDumper.dump(System.out);
+
+        Iterator<NgxEntry> it = parsedConfig.getEntries().iterator();
+        NgxBlock loc = (NgxBlock) it.next();
+        TestUtils.assertBlock(loc, "location", "~*", "(^.+\\.(xhtml)(;.?))");
+        Assert.assertEquals(1, loc.getEntries().size());
+        Assert.assertFalse(it.hasNext());
     }
 }

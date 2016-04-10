@@ -11,4 +11,9 @@ public class ParseTestBase {
         Iterator<NgxEntry> it = parse(path).getEntries().iterator();
         return it.next();
     }
+
+    protected void debug(NgxConfig parsedConfig) {
+        NgxDumper ngxDumper = new NgxDumper(parsedConfig);
+        ngxDumper.dump(System.out);
+    }
 }

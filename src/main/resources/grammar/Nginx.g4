@@ -146,7 +146,7 @@ Value: STR_EXT | QUOTED_STRING | SINGLE_QUOTED
 
 STR_EXT
   :
-  [a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|#]+;
+  ([a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|#] | NON_ASCII)+;
 
 Comment
     :
@@ -161,15 +161,11 @@ QUOTED_STRING
   '"' StringCharacters? '"'
   ;
 
-fragment
-RegexpPrefix
-  : [~][*]?
-  ;
+fragment RegexpPrefix : [~][*]?;
 
-fragment
-StringCharacters
-    :   (~["\\] | EscapeSequence)+
-    ;
+fragment StringCharacters : (~["\\] | EscapeSequence)+;
+
+fragment NON_ASCII :  '\u0080'..'\uFFFF';
 
 fragment
 EscapeSequence
