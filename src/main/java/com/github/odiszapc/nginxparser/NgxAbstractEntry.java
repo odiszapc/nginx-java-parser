@@ -73,14 +73,15 @@ public abstract class NgxAbstractEntry implements NgxEntry {
     }
 
     public String getValue() {
-        List<String> values = getValues();
-
+        Iterator<String> iterator = getValues().iterator();
         StringBuilder builder = new StringBuilder();
-        for (String value : values) {
-            builder.append(value).append(" ");
+        while (iterator.hasNext()) {
+            builder.append(iterator.next());
+            if (iterator.hasNext()) {
+              builder.append(' ');
+            }
         }
-        String s = builder.toString();
-        return s.substring(0, s.length()-1);
+        return builder.toString();
     }
 
 }
