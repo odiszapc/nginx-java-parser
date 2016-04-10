@@ -1,9 +1,8 @@
-// Generated from Nginx.g4 by ANTLR 4.3
+// Generated from Nginx.g4 by ANTLR 4.5.3
 
     package com.github.odiszapc.nginxparser.antlr;
     import com.github.odiszapc.nginxparser.*;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -21,77 +20,75 @@ public class NginxBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatement(@NotNull NginxParser.StatementContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitConfig(NginxParser.ConfigContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIf_body(@NotNull NginxParser.If_bodyContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitStatement(NginxParser.StatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGenericBlockHeader(@NotNull NginxParser.GenericBlockHeaderContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitGenericStatement(NginxParser.GenericStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIf_statement(@NotNull NginxParser.If_statementContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitRegexHeaderStatement(NginxParser.RegexHeaderStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBlock(@NotNull NginxParser.BlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitBlock(NginxParser.BlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConfig(@NotNull NginxParser.ConfigContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitGenericBlockHeader(NginxParser.GenericBlockHeaderContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRewriteStatement(@NotNull NginxParser.RewriteStatementContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitIf_statement(NginxParser.If_statementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGenericStatement(@NotNull NginxParser.GenericStatementContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitIf_body(NginxParser.If_bodyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRegexp(@NotNull NginxParser.RegexpContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitRegexp(NginxParser.RegexpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocationBlockHeader(@NotNull NginxParser.LocationBlockHeaderContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLocationBlockHeader(NginxParser.LocationBlockHeaderContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitRewriteStatement(NginxParser.RewriteStatementContext ctx) { return visitChildren(ctx); }
 }

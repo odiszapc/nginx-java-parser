@@ -25,6 +25,8 @@ statement returns [NgxParam ret]
   rewriteStatement { $ret = $rewriteStatement.ret; }
   |
   genericStatement { $ret = $genericStatement.ret; }
+  |
+  regexHeaderStatement { $ret = $regexHeaderStatement.ret; }
 )
 ';';
 
@@ -37,6 +39,15 @@ genericStatement returns [NgxParam ret]
     |
     r=regexp { $ret.addValue($r.ret); }
   )*
+  ;
+
+regexHeaderStatement returns [NgxParam ret]
+@init { $ret = new NgxParam(); }
+  :
+  // Use token definition for regexp-driven parameter name in Nginx config
+  // See: http://nginx.org/en/docs/http/ngx_http_map_module.html
+  REGEXP_PREFIXED { $ret.addValue($REGEXP_PREFIXED.text); }
+  Value  { $ret.addValue($Value.text); }
   ;
 
 block returns [NgxBlock ret]
@@ -135,16 +146,24 @@ Value: STR_EXT | QUOTED_STRING | SINGLE_QUOTED
 
 STR_EXT
   :
-  [a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|]+;
+  [a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|#]+;
 
 Comment
     :
     '#' ~[\r\n]*;
 
+REGEXP_PREFIXED
+  : (RegexpPrefix)[a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|#)(]+
+  ;
 
 QUOTED_STRING
   :
   '"' StringCharacters? '"'
+  ;
+
+fragment
+RegexpPrefix
+  : [~][*]?
   ;
 
 fragment
