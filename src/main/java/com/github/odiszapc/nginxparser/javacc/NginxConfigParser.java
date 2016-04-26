@@ -6,6 +6,70 @@ import com.github.odiszapc.nginxparser.*;
 public class NginxConfigParser implements NginxConfigParserConstants {
   private boolean isDebug = false;
 
+  /** Generated Token Manager. */
+  public NginxConfigParserTokenManager token_source;
+  SimpleCharStream jj_input_stream;
+  /** Current token. */
+  public Token token;
+  /** Next token. */
+  public Token jj_nt;
+  private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[10];
+  static private int[] jj_la1_0;
+  final private JJCalls[] jj_2_rtns = new JJCalls[3];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
+
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
+
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+
+  /** Constructor with InputStream. */
+  public NginxConfigParser(java.io.InputStream stream) {
+        this(stream, null);
+    }
+  /** Constructor with InputStream and supplied encoding */
+  public NginxConfigParser(java.io.InputStream stream, String encoding) {
+      try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+      token_source = new NginxConfigParserTokenManager(jj_input_stream);
+      token = new Token();
+      jj_ntk = -1;
+      jj_gen = 0;
+      for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+      for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+  }
+
+  /** Constructor. */
+  public NginxConfigParser(java.io.Reader stream) {
+      jj_input_stream = new SimpleCharStream(stream, 1, 1);
+      token_source = new NginxConfigParserTokenManager(jj_input_stream);
+      token = new Token();
+      jj_ntk = -1;
+      jj_gen = 0;
+      for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+      for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+  }
+
+  /** Constructor with generated Token Manager. */
+  public NginxConfigParser(NginxConfigParserTokenManager tm) {
+      token_source = tm;
+      token = new Token();
+      jj_ntk = -1;
+      jj_gen = 0;
+      for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+      for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+  }
+
+  static {
+      jj_la1_init_0();
+  }
   public void setDebug(boolean val) {
     isDebug = val;
   }
@@ -421,42 +485,8 @@ debugLn("COMMENT=" + token.image);
     return false;
   }
 
-  /** Generated Token Manager. */
-  public NginxConfigParserTokenManager token_source;
-  SimpleCharStream jj_input_stream;
-  /** Current token. */
-  public Token token;
-  /** Next token. */
-  public Token jj_nt;
-  private int jj_ntk;
-  private Token jj_scanpos, jj_lastpos;
-  private int jj_la;
-  private int jj_gen;
-  final private int[] jj_la1 = new int[10];
-  static private int[] jj_la1_0;
-  static {
-      jj_la1_init_0();
-   }
-   private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x1e000,0x1e000,0xe000,0x1e400,0x1e400,0x1e000,0x1e000,0xf000,0xe000,0xf000,};
-   }
-  final private JJCalls[] jj_2_rtns = new JJCalls[3];
-  private boolean jj_rescan = false;
-  private int jj_gc = 0;
-
-  /** Constructor with InputStream. */
-  public NginxConfigParser(java.io.InputStream stream) {
-     this(stream, null);
-  }
-  /** Constructor with InputStream and supplied encoding */
-  public NginxConfigParser(java.io.InputStream stream, String encoding) {
-    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
-    token_source = new NginxConfigParserTokenManager(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+  private static void jj_la1_init_0() {
+     jj_la1_0 = new int[] {0x1e000,0x1e000,0xe000,0x1e400,0x1e400,0x1e000,0x1e000,0xf000,0xe000,0xf000,};
   }
 
   /** Reinitialise. */
@@ -474,31 +504,10 @@ debugLn("COMMENT=" + token.image);
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  /** Constructor. */
-  public NginxConfigParser(java.io.Reader stream) {
-    jj_input_stream = new SimpleCharStream(stream, 1, 1);
-    token_source = new NginxConfigParserTokenManager(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
-  }
-
   /** Reinitialise. */
   public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
-  }
-
-  /** Constructor with generated Token Manager. */
-  public NginxConfigParser(NginxConfigParserTokenManager tm) {
-    token_source = tm;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
@@ -542,7 +551,6 @@ debugLn("COMMENT=" + token.image);
 
   @SuppressWarnings("serial")
   static private final class LookaheadSuccess extends java.lang.Error { }
-  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
   private boolean jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {
       jj_la--;
@@ -590,12 +598,6 @@ debugLn("COMMENT=" + token.image);
     else
       return (jj_ntk = jj_nt.kind);
   }
-
-  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
-  private int[] jj_expentry;
-  private int jj_kind = -1;
-  private int[] jj_lasttokens = new int[100];
-  private int jj_endpos;
 
   private void jj_add_error_token(int kind, int pos) {
     if (pos >= 100) return;
