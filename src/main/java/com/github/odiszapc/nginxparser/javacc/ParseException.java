@@ -37,6 +37,32 @@ public class ParseException extends Exception {
   private static final long serialVersionUID = 1L;
 
   /**
+   * This is the last token that has been consumed successfully.  If
+   * this object has been created due to a parse error, the token
+   * followng this token will (therefore) be the first error token.
+   */
+  public Token currentToken;
+
+  /**
+   * Each entry in this array is an array of integers.  Each array
+   * of integers represents a sequence of tokens (by their ordinal
+   * values) that is expected at this point of the parse.
+   */
+  public int[][] expectedTokenSequences;
+
+  /**
+   * This is a reference to the "tokenImage" array of the generated
+   * parser within which the parse error occurred.  This array is
+   * defined in the generated ...Constants interface.
+   */
+  public String[] tokenImage;
+
+  /**
+   * The end of line string for this machine.
+   */
+  protected String eol = System.getProperty("line.separator", "\n");
+
+  /**
    * This constructor is used by the method "generateParseException"
    * in the generated parser.  Calling this constructor generates
    * a new object of this type with the fields "currentToken",
@@ -71,28 +97,6 @@ public class ParseException extends Exception {
   public ParseException(String message) {
     super(message);
   }
-
-
-  /**
-   * This is the last token that has been consumed successfully.  If
-   * this object has been created due to a parse error, the token
-   * followng this token will (therefore) be the first error token.
-   */
-  public Token currentToken;
-
-  /**
-   * Each entry in this array is an array of integers.  Each array
-   * of integers represents a sequence of tokens (by their ordinal
-   * values) that is expected at this point of the parse.
-   */
-  public int[][] expectedTokenSequences;
-
-  /**
-   * This is a reference to the "tokenImage" array of the generated
-   * parser within which the parse error occurred.  This array is
-   * defined in the generated ...Constants interface.
-   */
-  public String[] tokenImage;
 
   /**
    * It uses "currentToken" and "expectedTokenSequences" to generate a parse
@@ -143,11 +147,6 @@ public class ParseException extends Exception {
     retval += expected.toString();
     return retval;
   }
-
-  /**
-   * The end of line string for this machine.
-   */
-  protected String eol = System.getProperty("line.separator", "\n");
 
   /**
    * Used to convert raw characters to their escaped version

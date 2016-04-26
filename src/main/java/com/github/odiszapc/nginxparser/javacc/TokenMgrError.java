@@ -59,6 +59,25 @@ public class TokenMgrError extends Error
    */
   int errorCode;
 
+  /*
+   * Constructors of various flavors follow.
+   */
+
+  /** No arg constructor. */
+  public TokenMgrError() {
+  }
+
+  /** Constructor with message and reason. */
+  public TokenMgrError(String message, int reason) {
+    super(message);
+    errorCode = reason;
+  }
+
+  /** Full Constructor. */
+  public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
+    this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+  }
+
   /**
    * Replaces unprintable characters by their escaped (or unicode escaped)
    * equivalents in the given string
@@ -139,25 +158,6 @@ public class TokenMgrError extends Error
    */
   public String getMessage() {
     return super.getMessage();
-  }
-
-  /*
-   * Constructors of various flavors follow.
-   */
-
-  /** No arg constructor. */
-  public TokenMgrError() {
-  }
-
-  /** Constructor with message and reason. */
-  public TokenMgrError(String message, int reason) {
-    super(message);
-    errorCode = reason;
-  }
-
-  /** Full Constructor. */
-  public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-    this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
   }
 }
 /* JavaCC - OriginalChecksum=5f0ac55433b166fece155f995c9aa2a9 (do not edit this line) */

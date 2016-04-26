@@ -7,8 +7,61 @@ package com.github.odiszapc.nginxparser.javacc;
 
   /** Debug output. */
   public  java.io.PrintStream debugStream = System.out;
+
+  static final int[] jjnextStates = {
+          7, 8, 10, 7, 8, 12, 10, 9, 11, 13, 16, 17,
+  };
+
+  /** Token literal values. */
+  public static final String[] jjstrLiteralImages = {
+          "", null, null, null, null, "\50", "\51", "\173", "\175", "\73", "\151\146",
+          null, null, null, null, null, null, null, null, };
+
+  static final long[] jjbitVec0 = {
+          0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
+  };
+
+  int curLexState = 0;
+  int defaultLexState = 0;
+  int jjnewStateCnt;
+  int jjround;
+  int jjmatchedPos;
+  int jjmatchedKind;
+
+  /** Lexer state names. */
+  public static final String[] lexStateNames = {
+          "DEFAULT",
+  };
+  static final long[] jjtoToken = {
+          0x1ffe1L,
+  };
+  static final long[] jjtoSkip = {
+          0x1eL,
+  };
+  protected SimpleCharStream  input_stream;
+
+  private final int[] jjrounds = new int[20];
+  private final int[] jjstateSet = new int[2 * 20];
+
+  protected char curChar;
+
+  /** Constructor. */
+  public NginxConfigParserTokenManager(SimpleCharStream stream) {
+       if (SimpleCharStream.staticFlag)
+          throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
+
+      input_stream = stream;
+  }
+
+  /** Constructor. */
+  public NginxConfigParserTokenManager (SimpleCharStream stream, int lexState){
+      ReInit(stream);
+      SwitchTo(lexState);
+  }
+
   /** Set debug output. */
   public  void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
+
 private final int jjStopStringLiteralDfa_0(int pos, long active0){
    switch (pos)
    {
@@ -80,9 +133,7 @@ private int jjStartNfaWithStates_0(int pos, int kind, int state)
    catch(java.io.IOException e) { return pos + 1; }
    return jjMoveNfa_0(state, pos + 1);
 }
-static final long[] jjbitVec0 = {
-   0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
-};
+
 private int jjMoveNfa_0(int startState, int curPos)
 {
    int startsAt = 0;
@@ -324,14 +375,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       catch(java.io.IOException e) { return curPos; }
    }
 }
-static final int[] jjnextStates = {
-   7, 8, 10, 7, 8, 12, 10, 9, 11, 13, 16, 17, 
-};
 
-/** Token literal values. */
-public static final String[] jjstrLiteralImages = {
-"", null, null, null, null, "\50", "\51", "\173", "\175", "\73", "\151\146", 
-null, null, null, null, null, null, null, null, };
 protected Token jjFillToken()
 {
    final Token t;
@@ -355,13 +399,6 @@ protected Token jjFillToken()
 
    return t;
 }
-
-int curLexState = 0;
-int defaultLexState = 0;
-int jjnewStateCnt;
-int jjround;
-int jjmatchedPos;
-int jjmatchedKind;
 
 /** Get the next Token. */
 public Token getNextToken() 
@@ -456,21 +493,6 @@ private void jjCheckNAddStates(int start, int end)
    } while (start++ != end);
 }
 
-    /** Constructor. */
-    public NginxConfigParserTokenManager(SimpleCharStream stream){
-
-      if (SimpleCharStream.staticFlag)
-            throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
-
-    input_stream = stream;
-  }
-
-  /** Constructor. */
-  public NginxConfigParserTokenManager (SimpleCharStream stream, int lexState){
-    ReInit(stream);
-    SwitchTo(lexState);
-  }
-
   /** Reinitialise parser. */
   public void ReInit(SimpleCharStream stream)
   {
@@ -503,22 +525,4 @@ private void jjCheckNAddStates(int start, int end)
     else
       curLexState = lexState;
   }
-
-/** Lexer state names. */
-public static final String[] lexStateNames = {
-   "DEFAULT",
-};
-static final long[] jjtoToken = {
-   0x1ffe1L, 
-};
-static final long[] jjtoSkip = {
-   0x1eL, 
-};
-    protected SimpleCharStream  input_stream;
-
-    private final int[] jjrounds = new int[20];
-    private final int[] jjstateSet = new int[2 * 20];
-
-    
-    protected char curChar;
 }

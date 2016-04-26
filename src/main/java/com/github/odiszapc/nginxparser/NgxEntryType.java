@@ -27,16 +27,15 @@ public enum NgxEntryType {
 
     private final Class<? extends NgxEntry> clazz;
 
-    Class<? extends NgxEntry> getType() {
-        return clazz;
-    }
+    private static Map<Class<? extends NgxEntry>, NgxEntryType> types;
 
     NgxEntryType(Class<? extends NgxEntry> clazz) {
-
         this.clazz = clazz;
     }
 
-    private static Map<Class<? extends NgxEntry>, NgxEntryType> types;
+    Class<? extends NgxEntry> getType() {
+        return clazz;
+    }
 
     static {
         types = new HashMap<Class<? extends NgxEntry>, NgxEntryType>();
