@@ -49,7 +49,11 @@ public abstract class NgxAbstractEntry implements NgxEntry {
             builder.append(value).append(" ");
         }
         String s = builder.toString();
-        return s.substring(0, s.length()-1);
+        if (s.length() == 0) {
+            return s;
+        } else {
+            return s.substring(0, s.length() - 1);
+        }
     }
 
     public String getName() {
@@ -66,7 +70,7 @@ public abstract class NgxAbstractEntry implements NgxEntry {
 
         Iterator<NgxToken> it = getTokens().iterator();
         it.next();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             values.add(it.next().toString());
         }
         return values;
@@ -78,7 +82,7 @@ public abstract class NgxAbstractEntry implements NgxEntry {
         while (iterator.hasNext()) {
             builder.append(iterator.next());
             if (iterator.hasNext()) {
-              builder.append(' ');
+                builder.append(' ');
             }
         }
         return builder.toString();

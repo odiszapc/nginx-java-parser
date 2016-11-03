@@ -16,6 +16,9 @@
 
 package com.github.odiszapc.nginxparser;
 
+import com.github.odiszapc.common.formatter.EntryFormatter;
+import com.github.odiszapc.common.formatter.FormatterRepository;
+import com.github.odiszapc.common.formatter.IndentSettableEntryFormatter;
 import com.github.odiszapc.nginxparser.antlr.NginxLexer;
 import com.github.odiszapc.nginxparser.antlr.NginxListenerImpl;
 import com.github.odiszapc.nginxparser.antlr.NginxParser;
@@ -25,10 +28,13 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 /**
@@ -40,6 +46,8 @@ public class NgxConfig extends NgxBlock {
     public static final Class<? extends NgxEntry> COMMENT = NgxComment.class;
     public static final Class<? extends NgxEntry> BLOCK = NgxBlock.class;
     public static final Class<? extends NgxEntry> IF = NgxIfBlock.class;
+
+    private FormatterRepository formatterRespository = new FormatterRepository();
 
     /**
      * Parse an existing config
@@ -69,7 +77,6 @@ public class NgxConfig extends NgxBlock {
         return parser.parse();
     }
 
-
     public static NgxConfig readAntlr(InputStream in) throws IOException {
         ANTLRInputStream input = new ANTLRInputStream(in);
         NginxLexer lexer = new NginxLexer(input);
@@ -84,6 +91,10 @@ public class NgxConfig extends NgxBlock {
         return listener.getResult();
     }
 
+    public void setFormatterRepository(FormatterRepository formatterRespository) {
+        this.formatterRespository = formatterRespository;
+    }
+
     @Override
     public Collection<NgxToken> getTokens() {
         throw new IllegalStateException("Not implemented");
@@ -94,8 +105,17 @@ public class NgxConfig extends NgxBlock {
         throw new IllegalStateException("Not implemented");
     }
 
+    @Override
     public String toString() {
-        return "Nginx Config (" + getEntries().size() + " entries)";
+        return "#Nginx Config (" + getEntries().size() + " entries)";
     }
 
+    public void writeTo(File file) throws IOException {
+        EntryFormatter formatter = formatterRespository.getFormatter(NgxConfig.class);
+        if (formatter instanceof IndentSettableEntryFormatter) {
+            ((IndentSettableEntryFormatter) formatter).setIndent(0);
+        }
+        StringBuffer buffer = formatter.formattedText(this);
+        FileUtils.write(file, buffer, StandardCharsets.UTF_8);
+    }
 }
