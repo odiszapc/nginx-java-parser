@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.odiszapc.nginxparser.annotation.NgxTokenValue;
+
 public class NgxEntrysTest {
 
     @Test

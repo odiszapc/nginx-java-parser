@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.github.odiszapc.common.formatter.impl.DefaultEntryFormatter;
 import com.github.odiszapc.common.formatter.impl.NgxBlockFormatter;
+import com.github.odiszapc.common.formatter.impl.NgxConfigFormatter;
 import com.github.odiszapc.nginxparser.NgxEntry;
 import com.github.odiszapc.nginxparser.NgxEntryType;
 
@@ -25,6 +26,7 @@ public class FormatterRepository {
         List<EntryFormatter> entryFormatters = new ArrayList<EntryFormatter>();
         entryFormatters.add(new DefaultEntryFormatter(this));
         entryFormatters.add(new NgxBlockFormatter(this));
+        entryFormatters.add(new NgxConfigFormatter(this));
         setFormatters(entryFormatters);
     }
 

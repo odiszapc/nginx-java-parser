@@ -1,5 +1,7 @@
 package com.github.odiszapc.nginxparser;
 
+import com.github.odiszapc.nginxparser.annotation.NgxType;
+
 /**
  *
  * <p>
@@ -29,7 +31,14 @@ public class NgxEntrys {
             return (NgxEntry) obj;
         }
         Class<?> clazz = obj.getClass();
-        return serializer.serialize(clazz.getSimpleName(), obj);
+        String name;
+        NgxType ngxType = clazz.getAnnotation(NgxType.class);
+        if (ngxType != null) {
+            name = ngxType.name();
+        } else {
+            name = clazz.getSimpleName();
+        }
+        return serializer.serialize(name, obj);
     }
 
 }

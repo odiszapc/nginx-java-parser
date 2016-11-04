@@ -1,4 +1,4 @@
-package com.github.odiszapc.nginxparser;
+package com.github.odiszapc.nginxparser.annotation;
 
 
 import java.lang.annotation.ElementType;

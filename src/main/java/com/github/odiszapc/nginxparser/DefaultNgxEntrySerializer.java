@@ -3,6 +3,8 @@ package com.github.odiszapc.nginxparser;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+import com.github.odiszapc.nginxparser.annotation.NgxTokenValue;
+
 public class DefaultNgxEntrySerializer implements NgxEntrySerializer {
 
     private static final String UPPER_CHAR_REGEX = "(?=\\p{Upper})";
@@ -52,7 +54,6 @@ public class DefaultNgxEntrySerializer implements NgxEntrySerializer {
     }
 
     public static String generateToken(String token) {
-        // if (token.matches("\\W"))) {
         String[] parts = token.split(UPPER_CHAR_REGEX);
         StringBuffer buf = new StringBuffer();
         for (String part : parts) {
@@ -63,9 +64,6 @@ public class DefaultNgxEntrySerializer implements NgxEntrySerializer {
             buf.deleteCharAt(buf.length() - 1);
         }
         return buf.toString();
-        // } else {
-        // return token;
-        // }
     }
 
 }

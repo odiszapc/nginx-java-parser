@@ -19,6 +19,13 @@ public class NgxBlockFormatter extends IndentSettableEntryFormatter {
     @Override
     public StringBuffer formattedText(NgxEntry entry) {
         StringBuffer buf = super.formattedText(entry);
+        buf.append(formattedBlockBody(entry));
+        buf.append("}\n");
+        return buf;
+    }
+
+    protected StringBuffer formattedBlockBody(NgxEntry entry) {
+        StringBuffer buf = new StringBuffer();
         if (!(entry instanceof NgxBlock)) {
             return buf;
         }
@@ -27,13 +34,12 @@ public class NgxBlockFormatter extends IndentSettableEntryFormatter {
             buf.append(getFormatter(e.getClass()).formattedText(e));
         }
         buf.append(indentText());
-        buf.append("}\n");
         return buf;
     }
 
     @Override
     public NgxEntryType[] supportedEntryTypes() {
-        return new NgxEntryType[] { NgxEntryType.BLOCK, NgxEntryType.CONFIG };
+        return new NgxEntryType[] { NgxEntryType.BLOCK };
     }
 
     @Override
