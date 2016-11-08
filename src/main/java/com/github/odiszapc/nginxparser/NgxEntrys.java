@@ -1,6 +1,5 @@
 package com.github.odiszapc.nginxparser;
 
-import com.github.odiszapc.nginxparser.annotation.NgxType;
 
 /**
  *
@@ -27,18 +26,7 @@ public class NgxEntrys {
         if (obj == null) {
             throw new IllegalArgumentException("obj should not be null");
         }
-        if (obj instanceof NgxEntry) {
-            return (NgxEntry) obj;
-        }
-        Class<?> clazz = obj.getClass();
-        String name;
-        NgxType ngxType = clazz.getAnnotation(NgxType.class);
-        if (ngxType != null) {
-            name = ngxType.name();
-        } else {
-            name = clazz.getSimpleName();
-        }
-        return serializer.serialize(name, obj);
+        return serializer.serialize(null, obj);
     }
 
 }
