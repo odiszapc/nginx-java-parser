@@ -40,7 +40,6 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
         return super.toString() + " {";
     }
 
-
     @Override
     public Iterator<NgxEntry> iterator() {
         return getEntries().iterator();
@@ -51,21 +50,21 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
             throw new NullPointerException("Item can not be null");
 
         Iterator<NgxEntry> it = entries.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             NgxEntry entry = it.next();
             switch (NgxEntryType.fromClass(entry.getClass())) {
-                case PARAM:
-                    if (entry.equals(itemToRemove))
-                        it.remove();
-                    break;
-                case BLOCK:
-                    if (entry.equals(itemToRemove))
-                        it.remove();
-                    else {
-                        NgxBlock block = (NgxBlock) entry;
-                        block.remove(itemToRemove);
-                    }
-                    break;
+            case PARAM:
+                if (entry.equals(itemToRemove))
+                    it.remove();
+                break;
+            case BLOCK:
+                if (entry.equals(itemToRemove))
+                    it.remove();
+                else {
+                    NgxBlock block = (NgxBlock) entry;
+                    block.remove(itemToRemove);
+                }
+                break;
             }
         }
     }
@@ -116,25 +115,25 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
 
         for (NgxEntry entry : getEntries()) {
             switch (NgxEntryType.fromClass(entry.getClass())) {
-                case PARAM:
-                    NgxParam param = (NgxParam) entry;
-                    if (param.getName().equals(head) && param.getClass() == clazz) {
-                        res.add(param);
-                    }
-                    break;
+            case PARAM:
+                NgxParam param = (NgxParam) entry;
+                if (param.getName().equals(head) && param.getClass() == clazz) {
+                    res.add(param);
+                }
+                break;
 
-                case BLOCK:
-                    NgxBlock block = (NgxBlock) entry;
-                    if (tail.length > 0) {
-                        if (block.getName().equals(head)) {
-                            res.addAll(block.findAll(clazz, result, tail));
-                        }
-                    } else {
-                        if (block.getName().equals(head) && (clazz.equals(NgxBlock.class))) {
-                            res.add(block);
-                        }
+            case BLOCK:
+                NgxBlock block = (NgxBlock) entry;
+                if (tail.length > 0) {
+                    if (block.getName().equals(head)) {
+                        res.addAll(block.findAll(clazz, result, tail));
                     }
-                    break;
+                } else {
+                    if (block.getName().equals(head) && (clazz.equals(NgxBlock.class))) {
+                        res.add(block);
+                    }
+                }
+                break;
             }
         }
 

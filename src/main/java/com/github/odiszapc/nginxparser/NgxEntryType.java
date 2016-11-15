@@ -23,7 +23,8 @@ public enum NgxEntryType {
     PARAM(NgxParam.class),
     COMMENT(NgxComment.class),
     IF(NgxIfBlock.class),
-    BLOCK(NgxBlock.class);
+    BLOCK(NgxBlock.class),
+    CONFIG(NgxConfig.class);
 
     private final Class<? extends NgxEntry> clazz;
 
