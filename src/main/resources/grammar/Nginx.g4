@@ -37,7 +37,9 @@ genericStatement returns [NgxParam ret]
   (
     Value { $ret.addValue($Value.text); }
     |
-    r=regexp { $ret.addValue($r.ret); }
+    REGEXP_PREFIXED { $ret.addValue($REGEXP_PREFIXED.text); }
+    |
+    regexp { $ret.addValue($regexp.ret); }
   )*
   ;
 
