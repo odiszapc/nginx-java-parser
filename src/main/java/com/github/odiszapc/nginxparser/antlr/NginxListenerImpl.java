@@ -1,7 +1,6 @@
 package com.github.odiszapc.nginxparser.antlr;
 
 import com.github.odiszapc.nginxparser.NgxConfig;
-import org.antlr.v4.runtime.misc.NotNull;
 
 
 
@@ -14,7 +13,7 @@ public class NginxListenerImpl extends NginxBaseListener {
     }
 
     @Override
-    public void enterConfig(@NotNull NginxParser.ConfigContext ctx) {
+    public void enterConfig(NginxParser.ConfigContext ctx) {
         result = ctx.ret;
     }
 }
