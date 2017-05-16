@@ -22,10 +22,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 public class TestUtils {
-    public static NgxConfig parseJavaCC(String path) throws Exception {
-        InputStream input = getStream(path);
-        return NgxConfig.readJavaCC(input);
-    }
 
     public static NgxConfig parseAntlr(String path) throws Exception {
         return NgxConfig.read(getStream(path));
