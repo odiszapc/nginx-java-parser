@@ -3,7 +3,7 @@
 package com.github.odiszapc.nginxparser.javacc;
 
 /** Token Manager. */
-@SuppressWarnings("unused")public class NginxConfigParserTokenManager implements NginxConfigParserConstants {
+public class NginxConfigParserTokenManager implements NginxConfigParserConstants {
 
   /** Debug output. */
   public  java.io.PrintStream debugStream = System.out;

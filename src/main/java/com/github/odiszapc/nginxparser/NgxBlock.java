@@ -46,6 +46,7 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
         return getEntries().iterator();
     }
 
+    @SuppressWarnings("incomplete-switch")
     public void remove(NgxEntry itemToRemove) {
         if (null == itemToRemove)
             throw new NullPointerException("Item can not be null");
@@ -78,6 +79,7 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends NgxEntry> T find(Class<T> clazz, String... params) {
         List<NgxEntry> all = findAll(clazz, new ArrayList<NgxEntry>(), params);
         if (all.isEmpty())
@@ -104,6 +106,7 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
         return findAll(clazz, new ArrayList<NgxEntry>(), params);
     }
 
+    @SuppressWarnings("incomplete-switch")
     public <T extends NgxEntry> List<NgxEntry> findAll(Class<T> clazz, List<NgxEntry> result, String... params) {
         List<NgxEntry> res = new ArrayList<NgxEntry>();
 
