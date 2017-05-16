@@ -74,8 +74,7 @@ public class TestUtils {
         return (NgxIfBlock) entry;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public static NgxComment assertComment(NgxEntry entry, @SuppressWarnings("SameParameterValue") String value) {
+    public static NgxComment assertComment(NgxEntry entry, String value) {
         Assert.assertTrue(entry instanceof NgxComment);
         Assert.assertEquals(((NgxComment) entry).getValue(), value);
         return (NgxComment) entry;
