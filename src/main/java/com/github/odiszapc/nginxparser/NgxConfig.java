@@ -21,7 +21,9 @@ import com.github.odiszapc.nginxparser.antlr.NginxListenerImpl;
 import com.github.odiszapc.nginxparser.antlr.NginxParser;
 import com.github.odiszapc.nginxparser.javacc.NginxConfigParser;
 import com.github.odiszapc.nginxparser.javacc.ParseException;
-import org.antlr.v4.runtime.ANTLRInputStream;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -71,7 +73,7 @@ public class NgxConfig extends NgxBlock {
 
 
     public static NgxConfig readAntlr(InputStream in) throws IOException {
-        ANTLRInputStream input = new ANTLRInputStream(in);
+        CharStream input = CharStreams.fromStream(in);
         NginxLexer lexer = new NginxLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         NginxParser parser = new NginxParser(tokens);
