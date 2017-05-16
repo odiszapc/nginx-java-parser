@@ -19,8 +19,6 @@ package com.github.odiszapc.nginxparser;
 import com.github.odiszapc.nginxparser.antlr.NginxLexer;
 import com.github.odiszapc.nginxparser.antlr.NginxListenerImpl;
 import com.github.odiszapc.nginxparser.antlr.NginxParser;
-import com.github.odiszapc.nginxparser.javacc.NginxConfigParser;
-import com.github.odiszapc.nginxparser.javacc.ParseException;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -58,19 +56,6 @@ public class NgxConfig extends NgxBlock {
     public static NgxConfig read(InputStream in) throws IOException {
         return readAntlr(in);
     }
-
-    /**
-     * Read config from existing stream
-     * @param input stream to read from
-     * @return Config object
-     * @throws IOException
-     * @throws ParseException
-     */
-    public static NgxConfig readJavaCC(InputStream input) throws IOException, ParseException {
-        NginxConfigParser parser = new NginxConfigParser(input);
-        return parser.parse();
-    }
-
 
     public static NgxConfig readAntlr(InputStream in) throws IOException {
         CharStream input = CharStreams.fromStream(in);
