@@ -1,0 +1,17 @@
+language: java
+
+jdk: oraclejdk8
+
+dist: trusty 
+
+branches: master
+
+cache:
+  directories:
+  - $HOME/.m2
+
+before_script:
+ - mvn -q clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script:
+- mvn clean test
