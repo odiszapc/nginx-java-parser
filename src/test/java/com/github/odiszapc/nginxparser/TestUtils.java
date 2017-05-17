@@ -22,10 +22,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 public class TestUtils {
-    public static NgxConfig parseJavaCC(String path) throws Exception {
-        InputStream input = getStream(path);
-        return NgxConfig.readJavaCC(input);
-    }
 
     public static NgxConfig parseAntlr(String path) throws Exception {
         return NgxConfig.read(getStream(path));
@@ -78,8 +74,7 @@ public class TestUtils {
         return (NgxIfBlock) entry;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public static NgxComment assertComment(NgxEntry entry, @SuppressWarnings("SameParameterValue") String value) {
+    public static NgxComment assertComment(NgxEntry entry, String value) {
         Assert.assertTrue(entry instanceof NgxComment);
         Assert.assertEquals(((NgxComment) entry).getValue(), value);
         return (NgxComment) entry;

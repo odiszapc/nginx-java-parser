@@ -26,12 +26,10 @@ import java.io.StringWriter;
 public class NgxDumper {
 
     private NgxConfig config;
-    private final static int PAD_SIZE = 2;
     private final static String PAD_SYMBOL = "  ";
     private final static String LBRACE = "{";
     private final static String RBRACE = "}";
     private final static String LF = "\n";
-    private final static String CRLF = "\r\n";
 
     public NgxDumper(NgxConfig config) {
         this.config = config;
