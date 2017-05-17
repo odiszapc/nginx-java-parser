@@ -4,7 +4,6 @@ This library helps in analyzing Nginx web server configuration files, looking up
 
 #### Features
 - Convert config file to AST tree using ANTLR4 parsing capabilities
-- The same is available for JavaCC too (deprecated)
 - Rebuild config files and dump them back to *.conf
 - Nested blocks support
 - If statements support
@@ -17,7 +16,7 @@ Add the following dependency to your POM:
 <dependency>
     <groupId>com.github.odiszapc</groupId>
     <artifactId>nginxparser</artifactId>
-    <version>0.9.3</version>
+    <version>0.9.6</version>
 </dependency>
 ```
 
