@@ -83,6 +83,13 @@ public class NginxBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitExp(NginxParser.ExpContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitLocationBlockHeader(NginxParser.LocationBlockHeaderContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

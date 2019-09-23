@@ -1,7 +1,6 @@
 package com.github.odiszapc.nginxparser;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -60,7 +59,6 @@ public class ComplexTest extends ParseTestBase {
     }
 
     @Test
-    @Ignore("Semicolon is broken")
     public void semicolon() throws Exception {
         final NgxConfig parsedConfig = parse("complex/semicolon.conf");
         NgxDumper ngxDumper = new NgxDumper(parsedConfig);
@@ -71,5 +69,17 @@ public class ComplexTest extends ParseTestBase {
         TestUtils.assertBlock(loc, "location", "~*", "(^.+\\.(xhtml)(;.?))");
         Assert.assertEquals(1, loc.getEntries().size());
         Assert.assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void issues11() throws Exception {
+        final NgxConfig parsedConfig = parse("complex/issues_11.conf");
+        NgxDumper ngxDumper = new NgxDumper(parsedConfig);
+        ngxDumper.dump(System.out);
+
+        Iterator<NgxEntry> it = parsedConfig.getEntries().iterator();
+        TestUtils.assertParam(it.next(), "proxy_redirect", "~^(http://[^:]+):\\d+(/.+)$", "$1$2");
+        it.next();it.next();
+        TestUtils.assertParam(it.next(), "server_name", "~^(?<subdomain>.+)\\.example\\.com$");
     }
 }

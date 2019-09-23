@@ -37,7 +37,9 @@ genericStatement returns [NgxParam ret]
   (
     Value { $ret.addValue($Value.text); }
     |
-    r=regexp { $ret.addValue($r.ret); }
+    REGEXP_PREFIXED { $ret.addValue($REGEXP_PREFIXED.text); }
+    |
+    regexp { $ret.addValue($regexp.ret); }
   )*
   ;
 
@@ -114,8 +116,14 @@ regexp returns [String ret]
   id='\\.' { $ret += $id.text; }
   | id='^' { $ret += $id.text; }
   | Value { $ret += $Value.text; }
-  | '(' r=regexp { $ret += "(".concat($r.ret).concat(")"); } ')'
+  | r=exp { $ret += $r.ret; }
 )+;
+
+exp returns [String ret]
+@init { $ret = ""; }
+:
+  '(' (r=regexp { $ret += $r.ret; } | id=';' { $ret += $id.text; })*? ')' { $ret = "(".concat($ret).concat(")"); }
+;
 
 locationBlockHeader returns [List<NgxToken> ret]
 @init { $ret = new ArrayList<NgxToken>(); }
@@ -140,20 +148,20 @@ rewriteStatement returns [NgxParam ret]
 //QUOTED_STRING
 //: '"' (~('"' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '"';
 
+// '#'priority Comment>Value
+Comment
+    :
+    '#' ~[\r\n]*;
 
 Value: STR_EXT | QUOTED_STRING | SINGLE_QUOTED
 ;
 
 STR_EXT
   :
-  ([a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|#] | NON_ASCII)+;
-
-Comment
-    :
-    '#' ~[\r\n]*;
+  ([a-zA-Z0-9_/\\<>.,\-:=~+!?$&^*[\]@|#] | NON_ASCII)+;
 
 REGEXP_PREFIXED
-  : (RegexpPrefix)[a-zA-Z0-9_/\.,\-:=~+!?$&^*\[\]@|#)(]+
+  : (RegexpPrefix)[a-zA-Z0-9_/\\<>.,\-:=~+!?$&^*[\]@|#)(]+
   ;
 
 QUOTED_STRING

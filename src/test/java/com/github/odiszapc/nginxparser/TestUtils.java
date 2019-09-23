@@ -47,7 +47,7 @@ public class TestUtils {
 
         Iterator<String> it = ((NgxParam) entry).getValues().iterator();
         for (String value : values) {
-            Assert.assertEquals(it.next(), value);
+            Assert.assertEquals(it.next().replaceAll("\r\n?","\n"), value);
         }
 
     }

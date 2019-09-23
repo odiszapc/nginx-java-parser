@@ -127,6 +127,18 @@ public class NginxBaseListener implements NginxListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExp(NginxParser.ExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExp(NginxParser.ExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLocationBlockHeader(NginxParser.LocationBlockHeaderContext ctx) { }
 	/**
 	 * {@inheritDoc}
