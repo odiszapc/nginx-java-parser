@@ -101,6 +101,16 @@ public interface NginxListener extends ParseTreeListener {
 	 */
 	void exitRegexp(NginxParser.RegexpContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link NginxParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterExp(NginxParser.ExpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link NginxParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitExp(NginxParser.ExpContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link NginxParser#locationBlockHeader}.
 	 * @param ctx the parse tree
 	 */

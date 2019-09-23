@@ -68,6 +68,12 @@ public interface NginxVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRegexp(NginxParser.RegexpContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link NginxParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExp(NginxParser.ExpContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link NginxParser#locationBlockHeader}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
