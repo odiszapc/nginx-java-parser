@@ -75,6 +75,7 @@ public class NgxDumper {
                     writer
                             .append(getOffset(level))
                             .append(ifBlock.toString())
+                            .append(LBRACE)
                             .append(getLineEnding());
                     writeToStream(ifBlock, writer, level + 1);
                     writer

@@ -16,9 +16,23 @@
 
 package com.github.odiszapc.nginxparser;
 
+import java.util.ArrayList;
+
 public class NgxIfBlock extends NgxBlock {
 
     public String toString() {
-        return super.toString(); // TODO: add parentheses (looks like "if $a !~ ^1(2)3$ {" currently)
+        ArrayList<NgxToken> tokens = new ArrayList<>(getTokens());
+        String ifToken = tokens.remove(0).getToken(); // The "if"
+        StringBuilder tokenBuilder = new StringBuilder(ifToken)
+                .append(" ")
+                .append("(");
+
+        for (NgxToken value : tokens) {
+            tokenBuilder.append(value).append(" ");
+        }
+
+        String result = tokenBuilder.toString();
+
+        return result.substring(0, result.length() -1) + ") ";
     }
 }
