@@ -79,8 +79,9 @@ public class NgxDumper {
                     writeToStream(ifBlock, writer, level + 1);
                     writer
                             .append(getOffset(level))
-                            .append(LBRACE)
+                            .append(RBRACE)
                             .append(getLineEnding());
+                    break;
                 case COMMENT:
                 case PARAM:
                     writer
