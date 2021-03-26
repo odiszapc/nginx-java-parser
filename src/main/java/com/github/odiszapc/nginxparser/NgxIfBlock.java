@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class NgxIfBlock extends NgxBlock {
 
+    @Override
     public String toString() {
         ArrayList<NgxToken> tokens = new ArrayList<>(getTokens());
         String ifToken = tokens.remove(0).getToken(); // The "if"
@@ -33,6 +34,6 @@ public class NgxIfBlock extends NgxBlock {
 
         String result = tokenBuilder.toString();
 
-        return result.substring(0, result.length() -1) + ") ";
+        return result.substring(0, result.length() -1) + ")";
     }
 }

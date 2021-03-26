@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class NgxAbstractEntry implements NgxEntry {
-    private Collection<NgxToken> tokens = new ArrayList<NgxToken>();
+    private Collection<NgxToken> tokens = new ArrayList<>();
 
     public NgxAbstractEntry(String... rawValues) {
         for (String val : rawValues) {

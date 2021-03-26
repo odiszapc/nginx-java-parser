@@ -34,4 +34,9 @@ public class NgxComment extends NgxAbstractEntry {
     public String toString() {
         return "#" + getValue();
     }
+
+    @Override
+    public void write(NgxPrintWriter printWriter) {
+        printWriter.appendLine(toString());
+    }
 }
