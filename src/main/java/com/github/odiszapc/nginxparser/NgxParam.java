@@ -30,4 +30,9 @@ public class NgxParam extends NgxAbstractEntry {
 
         return s + ";";
     }
+
+    @Override
+    public void write(NgxPrintWriter printWriter) {
+        printWriter.appendLine(toString());
+    }
 }

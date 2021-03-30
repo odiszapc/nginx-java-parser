@@ -21,7 +21,7 @@ public class AlterConfigTest extends ParseTestBase {
                 "  }\n" +
                 "}\n";
 
-        assertEquals(new NgxDumper(conf).dump(), expected);
+        assertEquals(expected, new NgxDumper(conf).dump());
     }
 
     @Test

@@ -37,7 +37,7 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
 
     @Override
     public String toString() {
-        return super.toString() + " {";
+        return super.toString();
     }
 
 
@@ -139,5 +139,12 @@ public class NgxBlock extends NgxAbstractEntry implements Iterable<NgxEntry> {
         }
 
         return res;
+    }
+
+    @Override
+    public void write(NgxPrintWriter writer) {
+        writer.openBlock(toString())
+            .write(getEntries())
+            .closeBlock();
     }
 }

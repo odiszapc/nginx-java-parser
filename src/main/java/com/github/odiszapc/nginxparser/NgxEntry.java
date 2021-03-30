@@ -16,7 +16,6 @@
 
 package com.github.odiszapc.nginxparser;
 
-
 public interface NgxEntry {
-
+    void write(NgxPrintWriter printWriter);
 }

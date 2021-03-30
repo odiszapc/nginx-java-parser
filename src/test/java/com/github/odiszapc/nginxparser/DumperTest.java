@@ -29,7 +29,7 @@ public class DumperTest {
                 "timer_resolution 100ms;\n" +
                 "worker_rlimit_nofile 8192;\n" +
                 "worker_priority -10;\n";
-        Assert.assertEquals(TestUtils.dump("common/c1.conf"), expected);
+        Assert.assertEquals(expected, TestUtils.dump("common/c1.conf"));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class DumperTest {
                 "  worker_connections 2048;\n" +
                 "  use epoll;\n" +
                 "}\n";
-        Assert.assertEquals(TestUtils.dump("common/c2.conf"), expected);
+        Assert.assertEquals(expected, TestUtils.dump("common/c2.conf"));
     }
 
     @Test
@@ -51,6 +51,39 @@ public class DumperTest {
                 "#worker_processes  2;\n" +
                 "worker_priority -10;\n" +
                 "proxy_pass http://unix:/opt/apps/ipn/ipn.sock:/;\n";
-        Assert.assertEquals(TestUtils.dump("common/c3.conf"), expected);
+        Assert.assertEquals(expected, TestUtils.dump("common/c3.conf"));
+    }
+
+    @Test
+    public void testC8() throws Exception {
+        final String expected = "" +
+                "server {\n" +
+                "  if ($host == test.example.com) {\n" +
+                "    return 301 https://$host$request_uri;\n" +
+                "  }\n" +
+                "  # managed by certbot\n" +
+                ""+
+                "  listen 80;\n" +
+                "  return 404;\n" +
+                "  # managed by Certbot\n" +
+                "}\n" +
+                "\n" +
+                "server {\n" +
+                "  server_name test.example.com;\n" +
+                "  location / {\n" +
+                "    proxy_pass http://localhost:8080;\n" +
+                "  }\n" +
+                "  listen 443 ssl;\n" +
+                "  # managed by Certbot\n" +
+                "  ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;\n" +
+                "  # managed by Certbot\n" +
+                "  ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;\n" +
+                "  # managed by Certbot\n" +
+                "  include /etc/letsencrypt/options-ssl-nginx.conf;\n" +
+                "  # managed by Certbot\n" +
+                "  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;\n" +
+                "  # managed by Certbot\n" +
+                "}\n";
+        Assert.assertEquals(expected, TestUtils.dump("common/c8.conf"));
     }
 }

@@ -16,9 +16,14 @@
 
 package com.github.odiszapc.nginxparser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Iterator;
 
 /**
  * NgxDumper is used to serialize an existing or manually created NgxConfig object
@@ -26,82 +31,81 @@ import java.io.StringWriter;
 public class NgxDumper {
 
     private NgxConfig config;
-    private final static int PAD_SIZE = 2;
-    private final static String PAD_SYMBOL = "  ";
-    private final static String LBRACE = "{";
-    private final static String RBRACE = "}";
-    private final static String LF = "\n";
-    private final static String CRLF = "\r\n";
 
     public NgxDumper(NgxConfig config) {
         this.config = config;
     }
 
     /**
+     * Dump the content of the config to a file.
+     *
+     * This method is used to write the NgxConfig directly to a file.
+     *
+     * If the file does not exist, it will be created.
+     *
+     * @param path the {@link Path} the config should be written to
+     * @throws IOException if anything goes wrong while writing or if the file is not writable
+     */
+    public void dumpToFile(Path path) throws IOException {
+        if(!Files.exists(path)) {
+            Files.createFile(path);
+        }
+        if(!Files.isWritable(path)) {
+            throw new IOException("The file cannot be written to: " + path);
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        dump(outputStream);
+        Files.write(path, outputStream.toByteArray(), StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    /**
+     * Dump the content of the config to a file.
+     *
+     * This method is for convenience and redirects directly to {@link #dumpToFile(Path)}
+     *
+     * @param destination the file the config should be written to
+     * @throws IOException if anything goes wrong while writing
+     * @see #dumpToFile(Path)
+     */
+    public void dumpToFile(String destination) throws IOException {
+        dumpToFile(Paths.get(destination));
+    }
+
+    /**
      * Converts config int String
+     *
      * @return Serialized config
      */
     public String dump() {
-        StringWriter writer = new StringWriter();
-        writeToStream(config, new PrintWriter(writer), 0);
-        return writer.toString();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        writeToStream(config, outputStream);
+        return outputStream.toString();
     }
 
     /**
      * Serializes config and sends result to the provided OutputStream
+     *
      * @param out stream to write to
      */
     public void dump(OutputStream out) {
-        writeToStream(config, new PrintWriter(out), 0);
+        writeToStream(config, out);
     }
 
-    private void writeToStream(NgxBlock config, PrintWriter writer, int level) {
-        for (NgxEntry entry : config) {
-            NgxEntryType type = NgxEntryType.fromClass(entry.getClass());
-            switch (type) {
-                case BLOCK:
-                    NgxBlock block = (NgxBlock) entry;
-                    writer.append(getOffset(level))
-                            .append(block.toString())
-                            .append(getLineEnding());
-                    writeToStream(block, writer, level + 1);
-                    writer
-                            .append(getOffset(level))
-                            .append(RBRACE)
-                            .append(getLineEnding());
-                    break;
-                case IF:
-                    NgxIfBlock ifBlock = (NgxIfBlock) entry;
-                    writer
-                            .append(getOffset(level))
-                            .append(ifBlock.toString())
-                            .append(getLineEnding());
-                    writeToStream(ifBlock, writer, level + 1);
-                    writer
-                            .append(getOffset(level))
-                            .append(LBRACE)
-                            .append(getLineEnding());
-                case COMMENT:
-                case PARAM:
-                    writer
-                            .append(getOffset(level))
-                            .append(entry.toString())
-                            .append(getLineEnding());
-                    break;
+    private void writeToStream(NgxBlock config, OutputStream outputStream) {
+        try (NgxPrintWriter writer = new NgxPrintWriter(outputStream)) {
+            Iterator<NgxEntry> iterator = config.iterator();
+            while (iterator.hasNext()) {
+                NgxEntry current = iterator.next();
+                current.write(writer);
+                if (current instanceof NgxBlock && iterator.hasNext()) {
+                    // Extra new line, between two top level blocks
+                    writer.newLine();
+                }
             }
+        } catch (Exception e) {
+            // TODO Better Exception handling, like custom Exception types within a custom hierarchy
+            throw new IllegalStateException(e);
         }
-        writer.flush();
-    }
-
-    public String getOffset(int level) {
-        String offset = "";
-        for (int i = 0; i < level; i++) {
-            offset += PAD_SYMBOL;
-        }
-        return offset;
-    }
-
-    public String getLineEnding() {
-        return LF;
     }
 }
