@@ -42,6 +42,16 @@ public abstract class NgxAbstractEntry implements NgxEntry {
         addValue(new NgxToken(value));
     }
 
+    public void updateValue(NgxToken token) {
+        tokens.clear();
+        tokens.add(token);
+    }
+
+    public void updateValue(String value) {
+        updateValue(new NgxToken(value));
+    }
+
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
